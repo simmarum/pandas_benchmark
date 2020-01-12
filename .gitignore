@@ -130,3 +130,7 @@ dmypy.json
 
 # venv
 v-env/
+
+# tmp data
+data/
+res/
