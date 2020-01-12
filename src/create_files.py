@@ -30,6 +30,7 @@ def create_output_path():
 
 
 def create_file():
+    print("Start creating files...")
 
     string_chars = string.ascii_lowercase + string.ascii_uppercase
     date_format = "%Y-%m-%d %H:%M:%S"

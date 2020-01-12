@@ -4,6 +4,8 @@ import os
 import time
 from process_timer import ProcessTimer
 from save_res import create_res_file_path, append_to_res_file
+import create_files as cf
+import shutil
 
 
 def get_benchmark_file_path():
@@ -34,7 +36,14 @@ def do_ben():
         append_to_res_file(res_file_path, tid, ptimer)
 
 
+def rm_data():
+    load_path = cf.create_output_path()
+    shutil.rmtree(os.path.dirname(load_path), ignore_errors=True)
+    print("Remove data from: ", os.path.dirname(load_path))
+
+
 def main():
+    rm_data()
     do_ben()
 
 
