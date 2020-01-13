@@ -37,7 +37,7 @@ def create_file():
     stime = time.mktime(time.strptime("2018-01-01 00:00:00", date_format))
     etime = time.mktime(time.strptime("2020-01-01 00:00:00", date_format))
 
-    val_v = 100
+    val_v = 10_000
     val_s = 1_000_000
     val_w = 10
     etime = stime + val_v
