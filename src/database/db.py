@@ -1,6 +1,8 @@
 import mysql.connector
 from mysql.connector import Error
 import cred
+# in cred file should be one line
+# p = 'password'
 
 
 def save_res_to_db(time, cpu, mem):
