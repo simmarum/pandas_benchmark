@@ -134,3 +134,6 @@ v-env/
 # tmp data
 data/
 res/
+
+# cred
+# cred.py
