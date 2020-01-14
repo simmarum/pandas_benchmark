@@ -52,6 +52,7 @@ def main():
     db.save_res_to_db(n_time, n_cpu, n_mem, avg_pt)
     res_stat = db.get_statistic(n_time, n_cpu, n_mem, avg_pt)
     print(res_stat)
+    return res_stat
 
 
 if __name__ == '__main__':
