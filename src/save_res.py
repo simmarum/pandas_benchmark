@@ -1,6 +1,7 @@
 import time
 import os
 import benchmark
+from database import db
 
 
 def create_res_file_path():

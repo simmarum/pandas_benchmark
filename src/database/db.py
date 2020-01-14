@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-import cred
+from . import cred
 # in cred file should be one line
 # p = 'password'
 
@@ -17,7 +17,7 @@ def save_res_to_db(time, cpu, mem, avg_pt):
             (time, cpu, mem, avg_pt)
         )
         con.commit()
-        print(c.rowcount, "record inserted successfully into results table")
+        print(c.rowcount, "record inserted successfully into table")
 
     except Error as e:
         print("Error reading data from MySQL table", e)
@@ -29,6 +29,7 @@ def save_res_to_db(time, cpu, mem, avg_pt):
 
 
 def get_statistic(time, cpu, mem, avg_pt):
+    res_stat = []
     try:
         con = mysql.connector.connect(user='Ury3EhU5sM', password=cred.p,
                                       host='remotemysql.com',
@@ -114,13 +115,13 @@ def get_statistic(time, cpu, mem, avg_pt):
         # mem, perc_mem, perc_mem_last,
         # avg_pt, perc_avg_pt, perc_avg_pt_last,
         # ####
-        print(
+        res_stat = [
             no_all, no_all_last,
             time, perc_time, perc_time_last,
             cpu, perc_cpu, perc_cpu_last,
             mem, perc_mem, perc_mem_last,
             avg_pt, perc_avg_pt, perc_avg_pt_last
-        )
+        ]
 
     except Error as e:
         print("Error reading data from MySQL table", e)
@@ -128,8 +129,7 @@ def get_statistic(time, cpu, mem, avg_pt):
         if (con.is_connected()):
             con.close()
             c.close()
-            print("MySQL connection is closed")
-
+    return res_stat
 
 # save_res_to_db(78068, 25, 557441024, 10000)
 # save_res_to_db(81000, 26, 570000000, 9100)

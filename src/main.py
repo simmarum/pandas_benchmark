@@ -6,6 +6,8 @@ from process_timer import ProcessTimer
 from save_res import create_res_file_path, append_to_res_file
 import create_files as cf
 import shutil
+from database import db
+import benchmark
 
 
 def get_benchmark_file_path():
@@ -32,8 +34,8 @@ def do_ben():
     finally:
         # make sure that we don't leave the process dangling?
         ptimer.close()
-
         append_to_res_file(res_file_path, tid, ptimer)
+    return ptimer
 
 
 def rm_data():
@@ -44,7 +46,12 @@ def rm_data():
 
 def main():
     rm_data()
-    do_ben()
+    ptimer = do_ben()
+
+    n_time, n_cpu, n_mem, avg_pt = benchmark.calculate_results(ptimer)
+    db.save_res_to_db(n_time, n_cpu, n_mem, avg_pt)
+    res_stat = db.get_statistic(n_time, n_cpu, n_mem, avg_pt)
+    print(res_stat)
 
 
 if __name__ == '__main__':
