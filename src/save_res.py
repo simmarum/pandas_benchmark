@@ -1,5 +1,6 @@
 import time
 import os
+import benchmark
 
 
 def create_res_file_path():
@@ -16,6 +17,7 @@ def create_res_file_path():
             "time",
             "cpu",
             "memory",
+            "avg_pt"
         ]
         myfile.write('\t'.join(tmp_row))
         myfile.write('\n')
@@ -23,16 +25,15 @@ def create_res_file_path():
 
 
 def append_to_res_file(res_path, tid, ptimer):
-    n_time = ptimer.t1 - ptimer.t0
-    n_cpu = sum(ptimer.cpu_percent_list)/len(ptimer.cpu_percent_list)
-    n_mem = max(ptimer.rss_memory_list)
+    n_time, n_cpu, n_mem, avg_pt = benchmark.calculate_results(ptimer)
 
     with open(res_path, "a") as myfile:
         tmp_row = [
             "{0:d}".format(tid),
-            "{0:.2f}".format(n_time),
-            "{0:.2f}".format(n_cpu),
+            "{0:d}".format(n_time),
+            "{0:d}".format(n_cpu),
             "{0:d}".format(n_mem),
+            "{0:d}".format(avg_pt),
         ]
         myfile.write('\t'.join(tmp_row))
         myfile.write('\n')

@@ -31,7 +31,7 @@ def check_files():
 
 def do_benchmark():
     for idx, f in enumerate(list_files()):
-        print("Package of tests: {}".format(idx))
+        print("Package of tests: {}".format(idx+1))
         df = load_data(f)
         distinct_column(1, df, "str")
         self_join(2, df)
@@ -81,6 +81,20 @@ def stats(idx, df):
         if index > 50_000:
             break
     print("Test {} done".format(idx))
+
+
+def calculate_results(ptimer):
+    n_time = int((ptimer.t1 - ptimer.t0)*1000)
+    n_cpu = int(sum(ptimer.cpu_percent_list)/len(ptimer.cpu_percent_list))
+    n_mem = max(ptimer.rss_memory_list)
+
+    avg_pt = int((
+        0.6*(100 * 80000 / n_time) +
+        0.2*(100 * 25 / n_cpu) +
+        0.2*(100 * 560000000 / n_mem)
+    )*100)
+
+    return n_time, n_cpu, n_mem, avg_pt
 
 
 def main():

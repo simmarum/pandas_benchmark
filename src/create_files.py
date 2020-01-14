@@ -30,8 +30,6 @@ def create_output_path():
 
 
 def create_file():
-    print("Start creating files...")
-
     string_chars = string.ascii_lowercase + string.ascii_uppercase
     date_format = "%Y-%m-%d %H:%M:%S"
     stime = time.mktime(time.strptime("2018-01-01 00:00:00", date_format))
@@ -66,15 +64,15 @@ def create_file():
         tmp_data.append(tmp_row)
 
     df = pd.DataFrame(tmp_data, columns=tmp_header)
-    print("Create dataset")
+    print("Create tmp dataset")
     save_path = create_output_path()
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     df.to_csv(save_path+"csv", index=False)
-    print("Save file to: {}".format(save_path+"csv"))
+    print("Save file 1")
     df.to_csv(save_path+"csv.gz", index=False)
-    print("Save file to: {}".format(save_path+"csv.gz"))
+    print("Save file 2")
     df.to_parquet(save_path+"snappy.parquet", index=False)
-    print("Save file to: {}".format(save_path+"parquet"))
+    print("Save file 3")
 
     return save_path
 
