@@ -39,7 +39,7 @@ def do_ben():
 def rm_data():
     load_path = cf.create_output_path()
     shutil.rmtree(os.path.dirname(load_path), ignore_errors=True)
-    print("Remove data from: ", os.path.dirname(load_path))
+    print("Remove tmp data")
 
 
 def main():
