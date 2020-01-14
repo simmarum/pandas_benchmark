@@ -1,6 +1,7 @@
-import psutil
 import subprocess
 import time
+
+import psutil
 
 
 class ProcessTimer:

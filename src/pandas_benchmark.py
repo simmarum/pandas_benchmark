@@ -1,7 +1,5 @@
-# import the library
-from appJar import gui
 import main as b_main
-# handle button events
+from appJar import gui
 
 
 class PandasBenchmark:
@@ -22,30 +20,27 @@ class PandasBenchmark:
     perc_avg_pt_last = 0
 
     def __init__(self):
-        # create a GUI variable called app
         self.app = gui("Pandas Benchmark", "800x300")
         self.app.setBg("gray")
         self.app.setFont(24)
 
-        # add & configure widgets - widgets get a name, to help referencing them later
         self.app.addLabel("title", "Welcome to PandasBenchmark")
 
-        # add labels
         self._update_all_labels(create=True)
         self._update_label(
             "l0",
             "(Running benchmark may take a few minutes please wait...)",
             create=True)
         self.app.getLabelWidget("l0").config(font="Verdana 12 overstrike")
-        # link the buttons to the function called _press
+
         self.app.addButtons(["Run", "Exit"], self._press)
+
         self._update_label(
             "lbtn",
             "(If you do not see buttons please resize this window)",
             create=True)
         self.app.getLabelWidget("lbtn").config(font="Verdana 12 overstrike")
 
-        # start the GUI
         self.app.go()
 
     def _update_all_labels(self, create=False):

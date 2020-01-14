@@ -1,6 +1,8 @@
 import mysql.connector
 from mysql.connector import Error
+
 from . import cred
+
 # in cred file should be one line
 # p = 'password'
 

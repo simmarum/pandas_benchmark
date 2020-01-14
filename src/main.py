@@ -1,13 +1,13 @@
-import subprocess
-import psutil
 import os
-import time
-from process_timer import ProcessTimer
-from save_res import create_res_file_path, append_to_res_file
-import create_files as cf
 import shutil
-from database import db
+import subprocess
+import time
+
 import benchmark
+import create_files as cf
+from database import db
+from process_timer import ProcessTimer
+from save_res import append_to_res_file, create_res_file_path
 
 
 def get_benchmark_file_path():
