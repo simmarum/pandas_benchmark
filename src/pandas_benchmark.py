@@ -1,23 +1,25 @@
-import main as b_main
+from run_benchmark import main as b_main
 from appJar import gui
 
 
 class PandasBenchmark:
 
-    # no_all = 0
-    # no_all_last = 0
-    time = 0
-    perc_time = 0
-    perc_time_last = 0
-    cpu = 0
-    perc_cpu = 0
-    perc_cpu_last = 0
-    mem = 0
-    perc_mem = 0
-    perc_mem_last = 0
-    avg_pt = 0
-    perc_avg_pt = 0
-    perc_avg_pt_last = 0
+    stats = {
+        "no_all": 0,
+        "no_all_last": 0,
+        "time": 0,
+        "perc_time": 0,
+        "perc_time_last": 0,
+        "cpu": 0,
+        "perc_cpu": 0,
+        "perc_cpu_last": 0,
+        "mem": 0,
+        "perc_mem": 0,
+        "perc_mem_last": 0,
+        "avg_pt": 0,
+        "perc_avg_pt": 0,
+        "perc_avg_pt_last": 0,
+    }
 
     def __init__(self):
         self.app = gui("Pandas Benchmark", "800x300")
@@ -46,23 +48,35 @@ class PandasBenchmark:
     def _update_all_labels(self, create=False):
         self._update_label(
             "l1",
-            "Your last score: {} (better than {}% overall and {}% over last hour)".format(
-                self.avg_pt, self.perc_avg_pt, self.perc_avg_pt_last),
+            "Your score: {} (better than {}% overall and {}% over last hour)".format(
+                self.stats["avg_pt"],
+                self.stats["perc_avg_pt"],
+                self.stats["perc_avg_pt_last"]
+            ),
             create)
         self._update_label(
             "l2",
-            "Your last time: {:.2f}s (better than {}% overall and {}% over last hour)".format(
-                self.time/1000, self.perc_time, self.perc_time_last),
+            "Your time: {:.2f}s (better than {}% overall and {}% over last hour)".format(
+                self.stats["time"]/1000,
+                self.stats["perc_time"],
+                self.stats["perc_time_last"]
+            ),
             create)
         self._update_label(
             "l3",
-            "Your last cpu load: {}% (better than {}% overall and {}% over last hour)".format(
-                self.cpu, self.perc_cpu, self.perc_cpu_last),
+            "Your cpu load: {}% (better than {}% overall and {}% over last hour)".format(
+                self.stats["cpu"],
+                self.stats["perc_cpu"],
+                self.stats["perc_cpu_last"]
+            ),
             create)
         self._update_label(
             "l4",
-            "Your last memory usage: {:.2f}MB (better than {}% overall and {}% over last hour)".format(
-                self.mem/1024/1024, self.perc_mem, self.perc_mem_last),
+            "Your memory usage: {:.2f}MB (better than {}% overall and {}% over last hour)".format(
+                self.stats["mem"]/1024/1024,
+                self.stats["perc_mem"],
+                self.stats["perc_mem_last"]
+            ),
             create)
 
     def _update_label(self, name, text, create=False):
@@ -91,21 +105,8 @@ class PandasBenchmark:
         else:
             self._do_compute(True)
             print("Run benchmark")
-            res_stat = b_main.main()
-            # self.no_all = res_stat[0]
-            # self.no_all_last = res_stat[1]
-            self.time = res_stat[2]
-            self.perc_time = res_stat[3]
-            self.perc_time_last = res_stat[4]
-            self.cpu = res_stat[5]
-            self.perc_cpu = res_stat[6]
-            self.perc_cpu_last = res_stat[7]
-            self.mem = res_stat[8]
-            self.perc_mem = res_stat[9]
-            self.perc_mem_last = res_stat[10]
-            self.avg_pt = res_stat[11]
-            self.perc_avg_pt = res_stat[12]
-            self.perc_avg_pt_last = res_stat[13]
+            res_stat = b_main()
+            self.stats = res_stat
             self._update_all_labels(create=False)
             self._do_compute(False)
 

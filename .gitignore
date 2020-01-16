@@ -137,3 +137,6 @@ res/
 
 # cred
 cred.py
+
+# MAC
+.DS_Store

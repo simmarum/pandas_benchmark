@@ -14,10 +14,4 @@ rm -rf $SCRIPTPATH/v-env
 python3 -m venv $SCRIPTPATH/v-env
 . $SCRIPTPATH/v-env/bin/activate
 
-pip3 install --compile \
-pandas==0.25.3 \
-more-itertools==8.0.2 \
-pyarrow==0.15.1 \
-psutil==5.6.7 \
-jupyter==1.0.0 \
-matplotlib==3.1.2
+pip3 install -r $SCRIPTPATH/requirements.txt
