@@ -13,6 +13,23 @@ class DB:
     host = 'remotemysql.com'
     port = 3306
     database = 'Ury3EhU5sM'
+    res_stats = {
+        "error": 0,
+        "no_all": 0,
+        "no_all_last": 0,
+        "time": 0,
+        "perc_time": 0,
+        "perc_time_last": 0,
+        "cpu": 0,
+        "perc_cpu": 0,
+        "perc_cpu_last": 0,
+        "mem": 0,
+        "perc_mem": 0,
+        "perc_mem_last": 0,
+        "avg_pt": 0,
+        "perc_avg_pt": 0,
+        "perc_avg_pt_last": 0,
+    }
 
     def save_res_to_db(self, time, cpu, mem, avg_pt):
         try:
@@ -21,7 +38,8 @@ class DB:
                 password=self.password,
                 host=self.host,
                 port=self.port,
-                database=self.database
+                database=self.database,
+                connect_timeout=5
             )
             c = con.cursor()
             c.execute(
@@ -32,9 +50,10 @@ class DB:
             print(c.rowcount, "record inserted successfully into table")
 
         except Error as e:
+            self.res_stats["error"] = 1
             print("Error reading data from MySQL table", e)
         finally:
-            if (con.is_connected()):
+            if ('con' in locals()) and (con.is_connected()):
                 con.close()
                 c.close()
                 print("MySQL connection is closed")
@@ -46,7 +65,11 @@ class DB:
         return int((1-(cnt/cnt_all)*100))
 
     def get_statistic(self, time, cpu, mem, avg_pt):
-        res_stats = {}
+        self.res_stats["error"] = 0
+        self.res_stats["time"] = time
+        self.res_stats["cpu"] = cpu
+        self.res_stats["mem"] = mem
+        self.res_stats["avg_pt"] = avg_pt
         try:
             con = mysql.connector.connect(
                 user=self.user,
@@ -129,26 +152,25 @@ class DB:
             perc_mem_last = self._get_perc(no_mem_last, no_all_last)
             perc_avg_pt_last = self._get_perc(no_avg_pt_last, no_all_last)
 
-            res_stats = {
-                "no_all": no_all,
-                "no_all_last": no_all_last,
-                "time": time,
-                "perc_time": perc_time,
-                "perc_time_last": perc_time_last,
-                "cpu": cpu,
-                "perc_cpu": perc_cpu,
-                "perc_cpu_last": perc_cpu_last,
-                "mem": mem,
-                "perc_mem": perc_mem,
-                "perc_mem_last": perc_mem_last,
-                "avg_pt": avg_pt,
-                "perc_avg_pt": perc_avg_pt,
-                "perc_avg_pt_last": perc_avg_pt_last,
-            }
+            self.res_stats["no_all"] = no_all
+            self.res_stats["no_all_last"] = no_all_last
+            self.res_stats["time"] = time
+            self.res_stats["perc_time"] = perc_time
+            self.res_stats["perc_time_last"] = perc_time_last
+            self.res_stats["cpu"] = cpu
+            self.res_stats["perc_cpu"] = perc_cpu
+            self.res_stats["perc_cpu_last"] = perc_cpu_last
+            self.res_stats["mem"] = mem
+            self.res_stats["perc_mem"] = perc_mem
+            self.res_stats["perc_mem_last"] = perc_mem_last
+            self.res_stats["avg_pt"] = avg_pt
+            self.res_stats["perc_avg_pt"] = perc_avg_pt
+            self.res_stats["perc_avg_pt_last"] = perc_avg_pt_last
         except Error as e:
+            self.res_stats["error"] = 1
             print("Error reading data from MySQL table", e)
         finally:
-            if (con.is_connected()):
+            if ('con' in locals()) and (con.is_connected()):
                 con.close()
                 c.close()
-        return res_stats
+        return self.res_stats

@@ -34,14 +34,8 @@ class PandasBenchmark:
             "(Running benchmark may take a few minutes please wait...)",
             create=True)
         self.app.getLabelWidget("l0").config(font="Verdana 12 normal")
-
+        self._update_l_error_label(0, True)
         self.app.addButtons(["Run", "Exit"], self._press)
-
-        self._update_label(
-            "lbtn",
-            "(If you do not see buttons please resize this window)",
-            create=True)
-        self.app.getLabelWidget("lbtn").config(font="Verdana 12 normal")
 
         self.app.go()
 
@@ -79,6 +73,22 @@ class PandasBenchmark:
             ),
             create)
 
+    def _update_l_error_label(self, er=0, cr=False):
+        if er == 0:
+            self._update_label(
+                "l_error",
+                "(If you do not see buttons below, please resize this window)",
+                create=cr)
+            self.app.getLabelWidget("l_error").config(font="Verdana 12 normal")
+            self.app.setLabelFg("l_error", "black")
+        else:
+            self._update_label(
+                "l_error",
+                "(Can't send result to database (show only your results!))",
+                create=cr)
+            self.app.getLabelWidget("l_error").config(font="Verdana 14 bold")
+            self.app.setLabelFg("l_error", "red")
+
     def _update_label(self, name, text, create=False):
         if create:
             self.app.addLabel(
@@ -110,6 +120,8 @@ class PandasBenchmark:
             res_stat = b_main()
             self.stats = res_stat
             self._update_all_labels(create=False)
+
+            self._update_l_error_label(self.stats["error"], False)
             self._do_compute(False)
 
 
