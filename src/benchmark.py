@@ -10,11 +10,7 @@ class Benchmark():
         self.cf = CreateFiles()
 
     def _load_data(self, l_path):
-        _, l_format = os.path.splitext(l_path)
-        if l_format in ['.csv', '.gz']:
-            return pd.read_csv(l_path, header=0)
-        elif l_format in ['.parquet']:
-            return pd.read_parquet(l_path)
+        return pd.read_csv(l_path, header=0)
 
     def _check_files(self):
         found = True

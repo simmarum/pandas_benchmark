@@ -17,8 +17,7 @@ import os
 class CreateFiles():
     f_formats = [
         "csv",
-        "csv.gz",
-        "snappy.parquet"
+        "csv.gz"
     ]
     f_name = "tmp"
 
@@ -84,7 +83,5 @@ class CreateFiles():
         print("Save file 1")
         df.to_csv(file_paths[1], index=False)
         print("Save file 2")
-        df.to_parquet(file_paths[2], index=False)
-        print("Save file 3")
 
         return file_paths
