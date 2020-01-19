@@ -33,7 +33,7 @@ class PandasBenchmark:
             "l0",
             "(Running benchmark may take a few minutes please wait...)",
             create=True)
-        self.app.getLabelWidget("l0").config(font="Verdana 12 overstrike")
+        self.app.getLabelWidget("l0").config(font="Verdana 12 normal")
 
         self.app.addButtons(["Run", "Exit"], self._press)
 
@@ -41,7 +41,7 @@ class PandasBenchmark:
             "lbtn",
             "(If you do not see buttons please resize this window)",
             create=True)
-        self.app.getLabelWidget("lbtn").config(font="Verdana 12 overstrike")
+        self.app.getLabelWidget("lbtn").config(font="Verdana 12 normal")
 
         self.app.go()
 
@@ -86,7 +86,9 @@ class PandasBenchmark:
                 text
             )
             if name != 'l1':
-                self.app.getLabelWidget(name).config(font="Verdana 16 overstrike")
+                self.app.getLabelWidget(name).config(font="Verdana 14 normal")
+            else:
+                self.app.setLabelFg(name, "#731DD8")
         else:
             self.app.setLabel(
                 name,
