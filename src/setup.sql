@@ -7,3 +7,15 @@ CREATE TABLE res (
     avg_pt INT NOT NULL,
     PRIMARY KEY (id)
 );
+
+ALTER TABLE
+    res
+ADD
+    COLUMN ver INT;
+
+UPDATE
+    res
+SET
+    ver = 1
+WHERE
+    ver IS NULL;

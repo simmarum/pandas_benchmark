@@ -13,6 +13,7 @@ from db import DB
 
 
 class RunBenchmark():
+    ver = 1
 
     def __init__(self):
         self.mt = MeasureThread()
@@ -44,12 +45,14 @@ def main():
         run_benchmark.mt.mem_max,
     )
     run_benchmark.db.save_res_to_db(
+        run_benchmark.ver,
         run_benchmark.mt.time_elapsed,
         run_benchmark.mt.cpu_avg,
         run_benchmark.mt.mem_max,
         avg_pt
     )
     res_stats = run_benchmark.db.get_statistic(
+        run_benchmark.ver,
         run_benchmark.mt.time_elapsed,
         run_benchmark.mt.cpu_avg,
         run_benchmark.mt.mem_max,

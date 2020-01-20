@@ -31,7 +31,7 @@ class DB:
         "perc_avg_pt_last": 0,
     }
 
-    def save_res_to_db(self, time, cpu, mem, avg_pt):
+    def save_res_to_db(self, ver, time, cpu, mem, avg_pt):
         try:
             con = mysql.connector.connect(
                 user=self.user,
@@ -43,8 +43,8 @@ class DB:
             )
             c = con.cursor()
             c.execute(
-                "INSERT INTO res (time,cpu,mem,avg_pt) VALUES (%s,%s,%s,%s);",
-                (time, cpu, mem, avg_pt)
+                "INSERT INTO res (time,cpu,mem,avg_pt,ver) VALUES (%s,%s,%s,%s,%s);",
+                (time, cpu, mem, avg_pt, ver)
             )
             con.commit()
             print(c.rowcount, "record inserted successfully into table")
@@ -64,7 +64,7 @@ class DB:
     def _get_perc_inv(self, cnt, cnt_all):
         return int((1-(cnt/cnt_all)*100))
 
-    def get_statistic(self, time, cpu, mem, avg_pt):
+    def get_statistic(self, ver, time, cpu, mem, avg_pt):
         self.res_stats["error"] = 0
         self.res_stats["time"] = time
         self.res_stats["cpu"] = cpu
@@ -84,50 +84,69 @@ class DB:
             SELECT
                 (
                     SELECT count(*) from res
+                    WHERE ver = %s
                 ) as no_all,
                 (
                     SELECT count(*) from res
                     WHERE time > %s
+                    AND ver = %s
                 ) as no_time,
                 (
                     SELECT count(*) from res
                     WHERE cpu > %s
+                    AND ver = %s
                 ) as no_cpu,
                 (
                     SELECT count(*) from res
                     WHERE mem > %s
+                    AND ver = %s
                 ) as no_mem,
                 (
                     SELECT count(*) from res
                     WHERE avg_pt < %s
+                    AND ver = %s
                 ) as no_avg_pt,
                 (
                     SELECT count(*) from res
                     WHERE ts >= DATE_SUB(current_timestamp(), INTERVAL 60 MINUTE)
+                    AND ver = %s
                 ) as no_all_last,
                 (
                     SELECT count(*) from res
                     WHERE time > %s
                     AND ts >= DATE_SUB(current_timestamp(), INTERVAL 60 MINUTE)
+                    AND ver = %s
                 ) as no_time_last,
                 (
                     SELECT count(*) from res
                     WHERE cpu > %s
                     AND ts >= DATE_SUB(current_timestamp(), INTERVAL 60 MINUTE)
+                    AND ver = %s
                 ) as no_cpu_last,
                 (
                     SELECT count(*) from res
                     WHERE mem > %s
                     AND ts >= DATE_SUB(current_timestamp(), INTERVAL 60 MINUTE)
+                    AND ver = %s
                 ) as no_mem_last,
                 (
                     SELECT count(*) from res
                     WHERE avg_pt < %s
                     AND ts >= DATE_SUB(current_timestamp(), INTERVAL 60 MINUTE)
+                    AND ver = %s
                 ) as no_avg_pt_last
             FROM DUAL;
             """,
-                (time, cpu, mem, avg_pt, time, cpu, mem, avg_pt)
+                (ver,
+                 time, ver,
+                 cpu, ver,
+                 mem, ver,
+                 avg_pt, ver,
+                 ver,
+                 time, ver,
+                 cpu, ver,
+                 mem, ver,
+                 avg_pt, ver)
             )
             records = c.fetchall()
 
