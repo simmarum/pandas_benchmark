@@ -23,7 +23,7 @@ class PandasBenchmark:
 
     def __init__(self):
         self.app = gui("Pandas Benchmark", "800x300")
-        self.app.setBg("gray")
+        self.app.setBg("#9590A8")
         self.app.setFont(24)
 
         self.app.addLabel("title", "Welcome to PandasBenchmark")
