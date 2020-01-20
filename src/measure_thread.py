@@ -19,7 +19,7 @@ class MeasureThread(Thread):
 
         while self.running:
             sleep(0.5)
-            self._cpu_sum = currentProcess.cpu_percent()
+            self._cpu_sum += currentProcess.cpu_percent()
             self._cpu_cnt += 1
             self.cpu_avg = int(self._cpu_sum/self._cpu_cnt)
             self.mem_max = max(self.mem_max, currentProcess.memory_info()[0])
