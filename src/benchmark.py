@@ -71,9 +71,9 @@ class Benchmark():
 
     def calculate_results(self, rtime, rcpu, rmem):
         avg_pt = int((
-            0.6*(100 * 80000 / rtime) +
-            0.2*(100 * 25 / rcpu) +
-            0.2*(100 * 560000000 / rmem)
+            0.6*(100 * 115000 / rtime) +
+            0.2*(100 * 50 / rcpu) +
+            0.2*(100 * 600000000 / rmem)
         )*100)
 
         return avg_pt
