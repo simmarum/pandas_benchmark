@@ -46,8 +46,8 @@ class CreateFiles():
         return file_paths
 
     def create_file(self):
-        val_v = 1_000
-        val_s = 30_000
+        val_v = 10_000
+        val_s = 300_000
         val_w = 10
         gen_p = self._produce_amount_keys(val_v)
         gen_date = random.sample(range(1515751437, 1578823437), val_v)
