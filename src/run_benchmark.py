@@ -13,7 +13,7 @@ from db import DB
 
 
 class RunBenchmark():
-    ver = 2
+    ver = 3
 
     def __init__(self):
         self.mt = MeasureThread()
