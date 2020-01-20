@@ -1,3 +1,4 @@
+import sys
 from run_benchmark import main as b_main
 from appJar import gui
 
@@ -21,56 +22,79 @@ class PandasBenchmark:
         "perc_avg_pt_last": 0,
     }
 
-    def __init__(self):
-        self.app = gui("Pandas Benchmark", "800x300")
-        self.app.setBg("#9590A8")
-        self.app.setFont(24)
+    def _get_l_l1(self):
+        return "Your score: {} (better than {}% overall and {}% over last hour)".format(
+            self.stats["avg_pt"],
+            self.stats["perc_avg_pt"],
+            self.stats["perc_avg_pt_last"]
+        )
 
-        self.app.addLabel("title", "Welcome to PandasBenchmark")
+    def _get_l_l2(self):
+        return "Your time: {:.2f}s (better than {}% overall and {}% over last hour)".format(
+            self.stats["time"]/1000,
+            self.stats["perc_time"],
+            self.stats["perc_time_last"]
+        )
 
-        self._update_all_labels(create=True)
-        self._update_label(
-            "l0",
-            "(Running benchmark may take a few minutes please wait...)",
-            create=True)
-        self.app.getLabelWidget("l0").config(font="Verdana 12 normal")
-        self._update_l_error_label(0, True)
-        self.app.addButtons(["Run", "Exit"], self._press)
+    def _get_l_l3(self):
+        return "Your cpu load: {}% (better than {}% overall and {}% over last hour)".format(
+            self.stats["cpu"],
+            self.stats["perc_cpu"],
+            self.stats["perc_cpu_last"]
+        )
 
-        self.app.go()
+    def _get_l_l4(self):
+        return "Your memory usage: {:.2f}MB (better than {}% overall and {}% over last hour)".format(
+            self.stats["mem"]/1024/1024,
+            self.stats["perc_mem"],
+            self.stats["perc_mem_last"]
+        )
+
+    def __init__(self, run_gui):
+        if run_gui == True:
+            self.app = gui("Pandas Benchmark", "800x300")
+            self.app.setBg("#9590A8")
+            self.app.setFont(24)
+
+            self.app.addLabel("title", "Welcome to PandasBenchmark")
+
+            self._update_all_labels(create=True)
+            self._update_label(
+                "l0",
+                "(Running benchmark may take a few minutes please wait...)",
+                create=True)
+            self.app.getLabelWidget("l0").config(font="Verdana 12 normal")
+            self._update_l_error_label(0, True)
+            self.app.addButtons(["Run", "Exit"], self._press)
+
+            self.app.go()
+        else:
+            print("Run benchmark")
+            res_stat = b_main()
+            self.stats = res_stat
+            print("Finish benchmark")
+            print("\n")
+            print(self._get_l_l1())
+            print(self._get_l_l2())
+            print(self._get_l_l3())
+            print(self._get_l_l4())
 
     def _update_all_labels(self, create=False):
         self._update_label(
             "l1",
-            "Your score: {} (better than {}% overall and {}% over last hour)".format(
-                self.stats["avg_pt"],
-                self.stats["perc_avg_pt"],
-                self.stats["perc_avg_pt_last"]
-            ),
+            self._get_l_l1(),
             create)
         self._update_label(
             "l2",
-            "Your time: {:.2f}s (better than {}% overall and {}% over last hour)".format(
-                self.stats["time"]/1000,
-                self.stats["perc_time"],
-                self.stats["perc_time_last"]
-            ),
+            self._get_l_l2(),
             create)
         self._update_label(
             "l3",
-            "Your cpu load: {}% (better than {}% overall and {}% over last hour)".format(
-                self.stats["cpu"],
-                self.stats["perc_cpu"],
-                self.stats["perc_cpu_last"]
-            ),
+            self._get_l_l3(),
             create)
         self._update_label(
             "l4",
-            "Your memory usage: {:.2f}MB (better than {}% overall and {}% over last hour)".format(
-                self.stats["mem"]/1024/1024,
-                self.stats["perc_mem"],
-                self.stats["perc_mem_last"]
-            ),
+            self._get_l_l4(),
             create)
 
     def _update_l_error_label(self, er=0, cr=False):
@@ -126,7 +150,10 @@ class PandasBenchmark:
 
 
 def main():
-    PandasBenchmark()
+    run_gui = True
+    if (len(sys.argv) > 1) and (sys.argv[1] == 'nogui'):
+        run_gui = False
+    PandasBenchmark(run_gui)
 
 
 if __name__ == '__main__':
