@@ -108,31 +108,31 @@ class DB:
                 ) as no_avg_pt,
                 (
                     SELECT count(*) from res
-                    WHERE ts >= DATE_SUB(current_timestamp(), INTERVAL 60 MINUTE)
+                    WHERE ts >= DATE_SUB(current_timestamp(), INTERVAL 24 HOUR)
                     AND ver = %s
                 ) as no_all_last,
                 (
                     SELECT count(*) from res
                     WHERE time > %s
-                    AND ts >= DATE_SUB(current_timestamp(), INTERVAL 60 MINUTE)
+                    AND ts >= DATE_SUB(current_timestamp(), INTERVAL 24 HOUR)
                     AND ver = %s
                 ) as no_time_last,
                 (
                     SELECT count(*) from res
                     WHERE cpu > %s
-                    AND ts >= DATE_SUB(current_timestamp(), INTERVAL 60 MINUTE)
+                    AND ts >= DATE_SUB(current_timestamp(), INTERVAL 24 HOUR)
                     AND ver = %s
                 ) as no_cpu_last,
                 (
                     SELECT count(*) from res
                     WHERE mem > %s
-                    AND ts >= DATE_SUB(current_timestamp(), INTERVAL 60 MINUTE)
+                    AND ts >= DATE_SUB(current_timestamp(), INTERVAL 24 HOUR)
                     AND ver = %s
                 ) as no_mem_last,
                 (
                     SELECT count(*) from res
                     WHERE avg_pt < %s
-                    AND ts >= DATE_SUB(current_timestamp(), INTERVAL 60 MINUTE)
+                    AND ts >= DATE_SUB(current_timestamp(), INTERVAL 24 HOUR)
                     AND ver = %s
                 ) as no_avg_pt_last
             FROM DUAL;

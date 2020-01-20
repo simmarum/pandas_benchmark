@@ -23,28 +23,28 @@ class PandasBenchmark:
     }
 
     def _get_l_l1(self):
-        return "Your score: {} (better than {}% overall and {}% over last hour)".format(
+        return "Your score: {} (better than {}% overall and {}% over last day)".format(
             self.stats["avg_pt"],
             self.stats["perc_avg_pt"],
             self.stats["perc_avg_pt_last"]
         )
 
     def _get_l_l2(self):
-        return "Your time: {:.2f}s (better than {}% overall and {}% over last hour)".format(
+        return "Your time: {:.2f}s (better than {}% overall and {}% over last day)".format(
             self.stats["time"]/1000,
             self.stats["perc_time"],
             self.stats["perc_time_last"]
         )
 
     def _get_l_l3(self):
-        return "Your cpu load: {}% (better than {}% overall and {}% over last hour)".format(
+        return "Your cpu load: {}% (better than {}% overall and {}% over last day)".format(
             self.stats["cpu"],
             self.stats["perc_cpu"],
             self.stats["perc_cpu_last"]
         )
 
     def _get_l_l4(self):
-        return "Your memory usage: {:.2f}MB (better than {}% overall and {}% over last hour)".format(
+        return "Your memory usage: {:.2f}MB (better than {}% overall and {}% over last day)".format(
             self.stats["mem"]/1024/1024,
             self.stats["perc_mem"],
             self.stats["perc_mem_last"]
