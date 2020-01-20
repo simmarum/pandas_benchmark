@@ -24,11 +24,11 @@ class Benchmark():
         for idx, f in enumerate(self.cf.get_file_paths()):
             print("Package of tests: {}".format(idx+1))
             df = self._load_data(f)
-            # self._distinct_column(1, df, "str")
-            # self._self_join(2, df)
-            # self._distinct_column(3, df, "int")
-            # self._self_join_2(4, df)
-            # self._distinct_column(6, df, "date")
+            self._distinct_column(1, df, "str")
+            self._self_join(2, df)
+            self._distinct_column(3, df, "int")
+            self._self_join_2(4, df)
+            self._distinct_column(6, df, "date")
             self._stats(7, df)
 
     def _distinct_column(self, idx, df, col_pattern):
