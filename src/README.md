@@ -18,4 +18,4 @@ You must have `Python3` and `venv` package.
 
 `python ./pandas_benchmark.py` to run benchmark with GUI
 
-`python ./run_benchmark.py` to run benchmark without GUI
+`python ./pandas_benchmark.py nogui` to run benchmark without GUI
