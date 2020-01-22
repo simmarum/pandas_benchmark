@@ -1,6 +1,7 @@
+import mysql
 import mysql.connector
 from mysql.connector import Error
-
+import mysql.connector.locales.eng.client_error
 import cred
 
 # in cred file should be one line
