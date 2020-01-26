@@ -160,18 +160,19 @@ class PandasBenchmark:
 
             self.fig.clear()
             self.ax = self.fig.add_subplot(111)
-            self.barlist = self.ax.bar(
-                self.stats["all_data_x"],
-                self.stats["all_data_y"],
-                color='b'
-            )
-            tmp_idx_avg_pt = self.stats["all_data_y"].index(self.stats['avg_pt'])
-            for idx in range(len(self.stats["all_data_y"])):
-                if idx == tmp_idx_avg_pt:
-                    self.barlist[idx].set_color('r')
-                else:
-                    self.barlist[idx].set_color('b')
-            self.app.refreshPlot("p1")
+            if self.stats["all_data"] is not None:
+                self.barlist = self.ax.bar(
+                    self.stats["all_data_x"],
+                    self.stats["all_data_y"],
+                    color='b'
+                )
+                tmp_idx_avg_pt = self.stats["all_data_y"].index(self.stats['avg_pt'])
+                for idx in range(len(self.stats["all_data_y"])):
+                    if idx == tmp_idx_avg_pt:
+                        self.barlist[idx].set_color('r')
+                    else:
+                        self.barlist[idx].set_color('b')
+                self.app.refreshPlot("p1")
 
             self._do_compute(False)
 
