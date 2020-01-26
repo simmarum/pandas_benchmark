@@ -1,21 +1,22 @@
-Short descriptions for developer
+# How to start
+Navigate to `./releases` directory
+- `mac/pandas_benchmark.app` for MAC
+- `win/pandas_benchmark.exe` for Windows
 
-# Necessary file
-Please create file `database/cred.py` with content:
+# Develop
+
+## Necessary file
+Please create file `./cred.py` with content:
 ```
 p = "password"
 ```
 
-# Develop on MACOS
+## Running
 You must have `Python3` and `venv` package.
-
-`bash ./mac_create_v-env.sh` to create v-env.
-
-`. ./v-env/bin/activate` to activate v-en.
-
-`pyinstaller --clean -w -F pandas_benchmark.py` to create app file for MAC.
+- `python3 -m venv ./v-env` to create v-env.
+- `. ./v-env/bin/activate` to activate v-enn
+- `pip isntall -r requirements.txt` to install dependencies
+- `pyinstaller --clean -w -F pandas_benchmark.py` to create app file
     (Find app in **dist** dir)
-
-`python ./pandas_benchmark.py` to run benchmark with GUI
-
-`python ./pandas_benchmark.py nogui` to run benchmark without GUI
+- `python ./pandas_benchmark.py` to run benchmark with GUI
+- `python ./pandas_benchmark.py nogui` to run benchmark without GUI
