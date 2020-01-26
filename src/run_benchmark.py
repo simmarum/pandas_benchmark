@@ -58,6 +58,12 @@ def main():
         run_benchmark.mt.mem_max,
         avg_pt
     )
+
+    res_stats_2 = run_benchmark.db.get_data_for_plot(
+        run_benchmark.ver,
+        avg_pt
+    )
+    res_stats.update(res_stats_2)
     return res_stats
 
 

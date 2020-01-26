@@ -194,3 +194,45 @@ class DB:
                 con.close()
                 c.close()
         return self.res_stats
+
+    def get_data_for_plot(self, ver, avg_pt):
+        self.res_stats["error"] = 0
+        self.res_stats["all_data"] = None
+        try:
+            con = mysql.connector.connect(
+                user=self.user,
+                password=self.password,
+                host=self.host,
+                port=self.port,
+                database=self.database
+            )
+            c = con.cursor()
+
+            c.execute(
+                """
+            SELECT avg_pt FROM res
+                    WHERE ver = %s
+            ;
+            """,
+                (ver,)
+            )
+            records = c.fetchall()
+
+            all_data = records
+            self.res_stats["all_data"] = records
+        except Error as e:
+            self.res_stats["error"] = 1
+            print("Error reading data from MySQL table", e)
+        finally:
+            if ('con' in locals()) and (con.is_connected()):
+                con.close()
+                c.close()
+        if self.res_stats["all_data"] is not None:
+            a_y = [row[0] for row in self.res_stats["all_data"]]
+            a_y.append(avg_pt)
+            a_y = list(set(a_y))
+            a_y.sort()
+            a_x = list(range(1, len(a_y)+1))
+            self.res_stats["all_data_y"] = a_y
+            self.res_stats["all_data_x"] = a_x
+        return self.res_stats

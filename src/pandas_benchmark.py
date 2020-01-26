@@ -52,14 +52,18 @@ class PandasBenchmark:
 
     def __init__(self, run_gui):
         if run_gui == True:
-            self.app = gui("Pandas Benchmark", "800x300")
+            self.app = gui("Pandas Benchmark", "1500x300")
             self.app.setBg("#9590A8")
             self.app.setFont(24)
 
-            self.app.addLabel("title", "Welcome to PandasBenchmark")
+            self.app.addLabel("title", "Welcome to PandasBenchmark", 0, 0)
 
             self._update_all_labels(create=True)
+
+            self.fig = self.app.addPlotFig("p1", 0, 3, 1, 15)
+
             self._update_label(
+                5,
                 "l0",
                 "(Running benchmark may take a few minutes please wait...)",
                 create=True)
@@ -81,18 +85,22 @@ class PandasBenchmark:
 
     def _update_all_labels(self, create=False):
         self._update_label(
+            1,
             "l1",
             self._get_l_l1(),
             create)
         self._update_label(
+            2,
             "l2",
             self._get_l_l2(),
             create)
         self._update_label(
+            3,
             "l3",
             self._get_l_l3(),
             create)
         self._update_label(
+            4,
             "l4",
             self._get_l_l4(),
             create)
@@ -100,6 +108,7 @@ class PandasBenchmark:
     def _update_l_error_label(self, er=0, cr=False):
         if er == 0:
             self._update_label(
+                6,
                 "l_error",
                 "(If you do not see buttons below, please resize this window)",
                 create=cr)
@@ -107,17 +116,19 @@ class PandasBenchmark:
             self.app.setLabelFg("l_error", "black")
         else:
             self._update_label(
+                6,
                 "l_error",
                 "(Can't send result to database (show only your results!))",
                 create=cr)
             self.app.getLabelWidget("l_error").config(font="Verdana 14 bold")
             self.app.setLabelFg("l_error", "red")
 
-    def _update_label(self, name, text, create=False):
+    def _update_label(self, r, name, text, create=False):
         if create:
             self.app.addLabel(
                 name,
-                text
+                text,
+                r,
             )
             if name != 'l1':
                 self.app.getLabelWidget(name).config(font="Verdana 14 normal")
@@ -146,6 +157,22 @@ class PandasBenchmark:
             self._update_all_labels(create=False)
 
             self._update_l_error_label(self.stats["error"], False)
+
+            self.fig.clear()
+            self.ax = self.fig.add_subplot(111)
+            self.barlist = self.ax.bar(
+                self.stats["all_data_x"],
+                self.stats["all_data_y"],
+                color='b'
+            )
+            tmp_idx_avg_pt = self.stats["all_data_y"].index(self.stats['avg_pt'])
+            for idx in range(len(self.stats["all_data_y"])):
+                if idx == tmp_idx_avg_pt:
+                    self.barlist[idx].set_color('r')
+                else:
+                    self.barlist[idx].set_color('b')
+            self.app.refreshPlot("p1")
+
             self._do_compute(False)
 
 
